@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 12:23:43 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/15 12:25:31 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/16 09:32:15 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,18 @@ void init_struct(t_game *game)
 
 int main (int argc, char **argv)
 {
-	t_map	maps;
-	t_game game;
-	t_imagedata image;
+	t_game *game;
 
 	//maps.fd = open(argv[1], O_RDONLY);
 	// reading_the_map(argv[1]);
-	ft_bzero(&maps, sizeof(t_map));
-	maps.map_matrix = reading_the_map(argv[1]);
-	map_saved_dimensions(&maps);
-	map_verification(maps);
-	init_struct(&game);
-	render(&image, &maps, &game);
+	game = malloc(sizeof(t_game) * 1);
+	game->map = malloc(sizeof(t_map) * 1);
+	ft_bzero(game->map, 1);
+	game->map->map_matrix = reading_the_map(argv[1]);
+	map_saved_dimensions(game->map);
+	map_verification(game->map);
+	init_struct(game);
+	render(game);
 	// fazer uma func que irá receber todas as validações.
 	return(0);
 }

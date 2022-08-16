@@ -18,19 +18,26 @@ int kill_window(t_game *game)
 }
 
 
+int refresh(t_game *game)
+{
+	//mlx_clear_window(game->mlx, game->window);
+	where_are_sprites(game);
+}
 
-void render(t_imagedata *image, t_map *map, t_game *game)
+void render(t_game *game)
 {
 	game->mlx = mlx_init();
-	game->window = mlx_new_window(game->mlx, map->width * 50, map->height * 50, "TITULO DO JOGO");
-    open_image(image, game);
-    where_are_sprites(map, image, game);
+	game->window = mlx_new_window(game->mlx, game->map->height * 50, game->map->width * 50, "TITULO DO JOGO");
+    open_image(game);
+    where_are_sprites(game);
 	mlx_hook(game->window, 17, 0L, kill_window, (void *)game);
+	mlx_hook(game->window, 2, 1L << 0, keys_to_move, (void *)game);
+	mlx_loop_hook(game->mlx, refresh, &game);
 	mlx_loop(game->mlx);
 }
 
 
-void open_image(t_imagedata *image, t_game *game)
+void open_image(t_game *game)
 {
     game->player->image = mlx_xpm_file_to_image(game->mlx, "./sprites/player.xpm", &game->player->i, &game->player->j);
     game->collect->image = mlx_xpm_file_to_image(game->mlx, "./sprites/collect.xpm", &game->collect->i, &game->collect->j);
@@ -39,11 +46,27 @@ void open_image(t_imagedata *image, t_game *game)
     game->exit->image = mlx_xpm_file_to_image(game->mlx, "./sprites/exit.xpm", &game->exit->i, &game->exit->j);
 	game->wall->image = mlx_xpm_file_to_image(game->mlx, "./sprites/wall.xpm", &game->wall->i, &game->wall->j);
 	//deste modo fará com que o i e j tenham valores diferentes.
+}
 
+int keys_to_move(int key_press, t_game *game)
+{
+	//preciso usar os botões w,a,s,d para andar.
+	if(key_press == KEY_ESC)
+		exit(0);
+	if(key_press == KEY_UP)
+		game->map->posc_p->posc_y--;
+	if(key_press == KEY_DOWN)
+		game->map->posc_p->posc_y++;
+	if(key_press == KEY_LEFT)
+		game->map->posc_p->posc_x--;
+	if(key_press == KEY_RIGHT)
+		game->map->posc_p->posc_x++;
+	return(0);
+	
 }
 
 
-void where_are_sprites(t_map *map, t_imagedata *image, t_game *game)
+void where_are_sprites(t_game *game)
 {
 	int x;
 	//vai ser para o width.
@@ -52,25 +75,28 @@ void where_are_sprites(t_map *map, t_imagedata *image, t_game *game)
 	x = 0;
 	y = 0;
 
-	while(x < map->width)
+	while(y < game->map->width)
 	{
-		y = 0;
-		while (y < map->height)
+		x = 0;
+		while (x < game->map->height)
 		{
-			if (map->map_matrix[x][y] == 'P')
-			    mlx_put_image_to_window(game->mlx, game->window, game->player->image, x * 50, y * 50);
-			if (map->map_matrix[x][y] == 'C')
+			// if (game->map->map_matrix[y][x] == 'P')
+			//     mlx_put_image_to_window(game->mlx, game->window, game->player->image, x * 50, y * 50);
+			if (game->map->map_matrix[y][x] == 'C')
 				mlx_put_image_to_window(game->mlx, game->window, game->collect->image, x * 50, y * 50);
-			if (map->map_matrix[x][y] == 'E')
+			if (game->map->map_matrix[y][x] == 'E')
 				mlx_put_image_to_window(game->mlx, game->window, game->exit->image, x * 50, y * 50);
-			if (map->map_matrix[x][y] == '1')
+			if (game->map->map_matrix[y][x] == '1')
 				mlx_put_image_to_window(game->mlx, game->window, game->wall->image, x * 50, y * 50);
-			if (map->map_matrix[x][y] == '0')
+			if (game->map->map_matrix[y][x] == '0')
 				mlx_put_image_to_window(game->mlx, game->window, game->empty->image, x * 50, y * 50);
-			y++;
+			x++;
 		}
-		x++;
+		y++;
+	mlx_put_image_to_window(game->mlx, game->window, game->player->image, game->map->posc_p->posc_x * 50, game->map->posc_p->posc_y * 50);
 	}
+	printf("x:%d\n", game->map->posc_p->posc_x);
+	printf("y:%d\n", game->map->posc_p->posc_y);
 }
 
 // 	// image.address = mlx_get_data_addr(image.image, &image.bits_per_pixels, &image.line_lenght, &image.endian);

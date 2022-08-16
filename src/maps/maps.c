@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 14:55:43 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/15 11:03:34 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/16 09:43:54 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 // 1- Parsear() o arquivo do mapa:
 // Ter parede tudo em volta. (a primeira e a ultima linha 
 // deve ser 1 e a primeira e ultima coluna tbm!!!)
-
-
-
 
 void map_saved_dimensions(t_map *dimensions)
 {
@@ -40,7 +37,7 @@ void map_saved_dimensions(t_map *dimensions)
 }
 
 
-void is_rectangular(t_map map)
+void is_rectangular(t_map *map)
 {
 	//para eu descobrir se ele é retangular, uso a len, pego o tamanho da primeira
 	//linha e faço uma comparacao entre a primeira linha e o restando
@@ -48,9 +45,9 @@ void is_rectangular(t_map map)
 	int count_size;
 	count_size = -1;
 
-	while(map.map_matrix[++count_size])
+	while(map->map_matrix[++count_size])
 	{
-		if (ft_strlen(map.map_matrix[count_size]) - 1 != map.width)
+		if (ft_strlen(map->map_matrix[count_size]) - 1 != map->width)
 		
 			// printf("%d\n", map.width);
 			// printf("%d\n", ft_strlen(map.map_matrix[count_size]) -1);
@@ -67,7 +64,7 @@ void is_rectangular(t_map map)
 // }
 
 //ela precisa preencher x(linha, horizontal) e y(coluna, vertical) 
-void    verifying_wall(t_map map)
+void    verifying_wall(t_map *map)
 {
 	int		count_size;
 	// count_size = 0;
@@ -77,23 +74,23 @@ void    verifying_wall(t_map map)
 	//preciso pegar os valores da primeira(linha 1) e ultima linha(tamanho total do mapa).
 	//preciso pegar os valores da primeira(primeiro carcater de cada linha)e ultima coluna(ultimo caractere de cada
 	//linha).
-	while(map.map_matrix[++count_size])
-	// while(map.map_matrix[count_size] != '\0')
+	while(map->map_matrix[++count_size])
+	// while(map->map_matrix[count_size] != '\0')
 	{
-		if (map.map_matrix[count_size][0] != '1' \
-		|| map.map_matrix[count_size][map.height - 1] != '1')
+		if (map->map_matrix[count_size][0] != '1' \
+		|| map->map_matrix[count_size][map->height - 1] != '1')
 		{
 			write(1, "DEU ERRO NESSE CARAIO", 22);
 			exit(0);	
 		}
 	}
-	// printf("%d\n", map.width);
+	// printf("%d\n", map->width);
 	count_size = -1;
 	
-	while(++count_size < map.height)
+	while(++count_size < map->height)
 	{
-		if (map.map_matrix[0][count_size] != '1' \
-		|| map.map_matrix[map.width - 1][count_size] != '1')
+		if (map->map_matrix[0][count_size] != '1' \
+		|| map->map_matrix[map->width - 1][count_size] != '1')
 		{
 			write(1, "DEU ERRO NESSE CARAIO", 22);
 			exit(0);
@@ -110,21 +107,28 @@ void valid_characters(t_map *map)
 	//vai ser pro height.
 	x = 0;
 	y = 0;
-	
-	while(x < map->width)
+	map->posc_p = malloc(sizeof(t_pp) * 1);
+	//aqui tenho um local vago, para salvar a posciao do meu player
+	map->posc_p->posc_x = 0;
+	map->posc_p->posc_y = 0;
+	while(y < map->width)
 	{
-		y = 0;
-		while (y < map->height)
+		x = 0;
+		while (x < map->height)
 		{
-			if (map->map_matrix[x][y] == 'P')
-					map->checker_p++;
-			if (map->map_matrix[x][y] == 'C')
+			if (map->map_matrix[y][x] == 'P')
+			{
+				map->checker_p++;
+				map->posc_p->posc_x = x;
+				map->posc_p->posc_y = y;
+			}
+			if (map->map_matrix[y][x] == 'C')
 					map->checker_c++;
-			if (map->map_matrix[x][y] == 'E')
+			if (map->map_matrix[y][x] == 'E')
 					map->checker_e++;
-			y++;
+			x++;
 		}
-		x++;
+		y++;
 	}
 }
 
@@ -173,11 +177,11 @@ int invalid_characters(t_map *map)
 	return(0);
 }
 
-void map_verification(t_map map)
+void map_verification(t_map *map)
 {
 	is_rectangular(map);
 	verifying_wall(map);
-	valid_characters(&map);
-	if_there_is_no(&map);
-	invalid_characters(&map);
+	valid_characters(map);
+	if_there_is_no(map);
+	invalid_characters(map);
 }
