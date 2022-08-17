@@ -12,8 +12,47 @@
 // 	*(unsigned int*)dest = color; 
 // }
 
+void free_matrix(char **matrix)
+{
+	int count_size;
+
+	count_size = 0;
+	if(matrix == NULL)
+		return ;
+	while(matrix[count_size])
+	{
+		free(matrix[count_size]);
+		count_size++;
+	}
+	free(matrix);
+	//serve para tirar o bloco vazio que restou, qnd eu fiz a limpeza linha por linha
+	//no while anterior.
+}
+
+
 int kill_window(t_game *game)
 {
+	mlx_destroy_image(game->mlx, game->collect->image);
+    mlx_destroy_image(game->mlx, game->player->image);
+    mlx_destroy_image(game->mlx, game->enemy->image);
+    mlx_destroy_image(game->mlx, game->wall->image);
+    mlx_destroy_image(game->mlx, game->exit->image);
+    mlx_destroy_image(game->mlx, game->empty->image);
+	mlx_clear_window(game->mlx,game->window);
+    mlx_destroy_window(game->mlx, game->window);
+    mlx_destroy_display(game->mlx);
+    mlx_loop_end(game->mlx);
+    free(game->mlx);
+    free(game->player);
+    free(game->collect);
+    free(game->exit);
+    free(game->enemy);
+    free(game->empty);
+    free(game->wall);
+	free(game->map->posc_p);
+	free_matrix(game->map->map_matrix);
+	free(game->map);
+	free(game);
 	exit(0);
 }
 
@@ -21,7 +60,7 @@ int kill_window(t_game *game)
 int refresh(t_game *game)
 {
 	//mlx_clear_window(game->mlx, game->window);
-	where_are_sprites(game);
+	// where_are_sprites(game);
 }
 
 void render(t_game *game)
@@ -50,19 +89,43 @@ void open_image(t_game *game)
 
 int keys_to_move(int key_press, t_game *game)
 {
+	//fazer uma variavel para receber o valor da poscicao do player.
+	int	p_tx;
+	int	p_ty;
+
+	p_tx = game->map->posc_p->posc_x;
+	p_ty = game->map->posc_p->posc_y;
 	//preciso usar os botões w,a,s,d para andar.
 	if(key_press == KEY_ESC)
 		exit(0);
 	if(key_press == KEY_UP)
-		game->map->posc_p->posc_y--;
+		p_ty--;
 	if(key_press == KEY_DOWN)
-		game->map->posc_p->posc_y++;
+		p_ty++;
 	if(key_press == KEY_LEFT)
-		game->map->posc_p->posc_x--;
+		p_tx--;
 	if(key_press == KEY_RIGHT)
-		game->map->posc_p->posc_x++;
+		p_tx++;
+		// a primeira afirmacao é so para ver se a linha ta dentro do que existe
+		// a segunda afirmacao de fato serve para ver onde esta o player
+	if(game->map->map_matrix[p_ty] && game->map->map_matrix[p_ty][p_tx] != '1')
+	{
+		if(game->map->map_matrix[p_ty][p_tx] == 'C')
+			game->map->checker_c--;
+		if(game->map->map_matrix[p_ty][p_tx] == 'E')
+		{
+			if(game->map->checker_c == 0)
+				kill_window(game);
+		}
+		else
+		{
+			game->map->map_matrix[game->map->posc_p->posc_y][game->map->posc_p->posc_x] = '0';
+			game->map->posc_p->posc_x = p_tx;
+			game->map->posc_p->posc_y = p_ty;
+		}
+		where_are_sprites(game);
+	}
 	return(0);
-	
 }
 
 

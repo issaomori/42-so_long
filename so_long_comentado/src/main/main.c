@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 12:23:43 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/16 09:32:15 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/16 12:19:47 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char **reading_the_map(char *pass_arg)
 	while (maps.buffer)
 	{
 		maps.readed_map = ft_strjoin(maps.readed_map, maps.buffer);
+		free(maps.buffer);
 		maps.buffer = get_next_line(maps.fd);
 		//printf("%s", buffer);
 	}
@@ -39,6 +40,7 @@ char **reading_the_map(char *pass_arg)
 		printf("linha %d: %s\n", i, maps.map_matrix[i]);
 		i++;
 	}
+	free(maps.readed_map);
 	close(maps.fd);
 	return(maps.map_matrix);
 }

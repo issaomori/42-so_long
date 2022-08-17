@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 14:55:43 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/16 09:43:54 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/16 11:53:02 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,10 @@ void valid_characters(t_map *map)
 	//aqui tenho um local vago, para salvar a posciao do meu player
 	map->posc_p->posc_x = 0;
 	map->posc_p->posc_y = 0;
+	map->checker_p = 0;
+	map->checker_c = 0;
+	map->checker_e = 0;
+
 	while(y < map->width)
 	{
 		x = 0;
