@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 13:00:42 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/17 17:04:42 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/17 17:55:22 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@ void	free_matrix(char **matrix)
 
 int	kill_window(t_game *game)
 {
-	printf("%p\n", game->mlx);
-	if(game->collect->image != 0)
-	mlx_destroy_image(game->mlx, game->collect->image);
+	if(game->mlx && game->collect->image != 0)
+		mlx_destroy_image(game->mlx, game->collect->image);
 	if(game->mlx && game->player->image != 0)
 		mlx_destroy_image(game->mlx, game->player->image);
 	if(game->mlx && game->enemy->image != 0)
@@ -51,6 +50,7 @@ int	kill_window(t_game *game)
 	if(game->mlx != 0)
 		mlx_loop_end(game->mlx);
 	free_protect(game);
+	exit(0);
 }
 
 void free_protect(t_game *game)
@@ -77,7 +77,6 @@ void free_protect(t_game *game)
 		free (game->map);
 	if(game != 0)
 		free (game);
-	exit(0);
 }
 
 void	render(t_game *game)
@@ -138,7 +137,7 @@ int keys_to_move(int key_press, t_game *game)
 	p_ty = game->map->posc_p->posc_y;
 	//preciso usar os botões w,a,s,d para andar.
 	if(key_press == KEY_ESC)
-		exit(0);
+		kill_window(game);
 	if(key_press == KEY_UP)
 		p_ty--;
 	if(key_press == KEY_DOWN)

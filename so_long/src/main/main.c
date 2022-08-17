@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 12:23:43 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/17 16:56:39 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/17 18:29:37 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,35 @@
 
 char	**reading_the_map(char *pass_arg)
 {
-	int		i;
 	t_map	maps;
 
-	maps.readed_map = ft_strdup("");
 	maps.fd = open(pass_arg, O_RDONLY);
 	if (maps.fd < 0)
-		exit(1);
+	{
+		printf("Error\nThe argument is invalid.\n");
+		return(NULL);	
+	}
+	maps.readed_map = ft_strdup("");
 	maps.buffer = get_next_line(maps.fd);
 	while (maps.buffer)
 	{
+		if (maps.buffer[0] == '\n')
+		{
+			while(maps.buffer)
+			{
+				free(maps.buffer);
+				maps.buffer = get_next_line(maps.fd);
+			}
+			printf("Error\nLine empty in the map.\n");
+			free(maps.readed_map);
+			close(maps.fd);
+			return(NULL);
+		}
 		maps.readed_map = ft_strjoin(maps.readed_map, maps.buffer);
 		free(maps.buffer);
 		maps.buffer = get_next_line(maps.fd);
 	}
-	i = 0;
 	maps.map_matrix = ft_split(maps.readed_map, '\n');
-	while (maps.map_matrix[i])
-	{
-		printf("linha %d: %s\n", i, maps.map_matrix[i]);
-		i++;
-	}
 	free(maps.readed_map);
 	close(maps.fd);
 	return (maps.map_matrix);
@@ -55,23 +63,23 @@ void	ft_bzero(void *str, size_t n)
 
 void	init_struct(t_game *game)
 {
-	game->player = calloc((sizeof(t_imagedata)), 1);
-	game->collect = calloc((sizeof(t_imagedata)), 1);
-	game->exit = calloc((sizeof(t_imagedata)), 1);
-	game->enemy = calloc((sizeof(t_imagedata)), 1);
-	game->empty = calloc((sizeof(t_imagedata)), 1);
-	game->wall = calloc((sizeof(t_imagedata)), 1);
+	game->player = ft_calloc((sizeof(t_imagedata)), 1);
+	game->collect = ft_calloc((sizeof(t_imagedata)), 1);
+	game->exit = ft_calloc((sizeof(t_imagedata)), 1);
+	game->enemy = ft_calloc((sizeof(t_imagedata)), 1);
+	game->empty = ft_calloc((sizeof(t_imagedata)), 1);
+	game->wall = ft_calloc((sizeof(t_imagedata)), 1);
 }
 
 int	main(int argc, char **argv)
 {
 	t_game	*game;
 
-	game = malloc(sizeof(t_game) * 1);
-	game->map = malloc(sizeof(t_map) * 1);
-	ft_bzero(game, 1);
-	ft_bzero(game->map, 1);
+	game = ft_calloc(sizeof(t_game), 1);
+	game->map = ft_calloc(sizeof(t_map), 1);
 	game->map->map_matrix = reading_the_map(argv[1]);
+	if(game->map->map_matrix == NULL)
+		kill_window(game);
 	map_saved_dimensions(game->map);
 	map_verification(game);
 	init_struct(game);

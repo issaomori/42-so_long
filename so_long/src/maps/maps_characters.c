@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 12:57:23 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/17 16:44:41 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/17 18:03:22 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,23 +48,22 @@ void	valid_characters(t_game *game)
 	}
 }
 
-
 void	if_there_is_no(t_game *game)
 {
 	if (game->map->checker_p != 1)
 	{
-		printf("Nao tem player");
-		exit(0);
+		printf("Error\nThe map need only one player.\n");
+		kill_window(game);
 	}
 	if (game->map->checker_c == 0)
 	{
-		printf("Nao tem coletavel");
-		exit(0);
+		printf("Error\nThe map needs at least one collect.\n");
+		kill_window(game);
 	}
 	if (game->map->checker_e == 0)
 	{
-		printf("Nao tem saida nessa merda");
-		exit(0);
+		printf("Error\nThe map need at least one exit.\n");
+		kill_window(game);
 	}
 }
 
@@ -80,17 +79,19 @@ int	invalid_characters(t_game *game)
 		x = 0;
 		while (x < game->map->height)
 		{
-			if (game->map->map_matrix[y] && game->map->map_matrix[y][x] != 'P'
-			&& game->map->map_matrix[y][x] != 'E' && game->map->map_matrix[y][x] != 'C'
-			&& game->map->map_matrix[y][x] != '1' && game->map->map_matrix[y][x] != '0')
+			if (game->map->map_matrix[y] \
+			&& game->map->map_matrix[y][x] != 'P' \
+			&& game->map->map_matrix[y][x] != 'E' \
+			&& game->map->map_matrix[y][x] != 'C' \
+			&& game->map->map_matrix[y][x] != '1' \
+			&& game->map->map_matrix[y][x] != '0')
 			{
-				printf("Invalid Character\n");
-				exit(0);
+				printf("Error\nInvalid Character\n");
+				kill_window(game);
 			}
-		x++;
+			x++;
 		}
-	y++;
+		y++;
 	}
 	return (0);
 }
-

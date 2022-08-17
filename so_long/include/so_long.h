@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 12:12:06 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/17 16:44:58 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/17 17:17:07 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,5 @@ int		keys_to_move(int key_press, t_game *game);
 void	init_vars(t_map *map);
 int		kill_window(t_game *game);
 void	free_protect(t_game *game);
+void	*ft_calloc(size_t number, size_t size);
 #endif
