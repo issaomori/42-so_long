@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 14:55:43 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/16 12:58:39 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/17 16:36:24 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,40 +28,40 @@ void	map_saved_dimensions(t_map *dimensions)
 	dimensions->width = lines;
 }
 
-void	is_rectangular(t_map *map)
+void	is_rectangular(t_game *game)
 {
 	int	count_size;
 
 	count_size = -1;
-	while (map->map_matrix[++count_size])
+	while (game->map->map_matrix[++count_size])
 	{
-		if (ft_strlen(map->map_matrix[count_size]) - 1 != map->width)
+		if (ft_strlen(game->map->map_matrix[count_size]) != game->map->height)
 		{
 			write(1, "Map is not Rectangular\n", 24);
-			exit(0);
+			kill_window(game);
 		}
 	}
 }
 
-void	verifying_wall(t_map *map)
+	void	verifying_wall(t_game *game)
 {
 	int	count_size;
 
 	count_size = -1;
-	while (map->map_matrix[++count_size])
+	while (game->map->map_matrix[++count_size])
 	{
-		if (map->map_matrix[count_size][0] != '1' \
-		|| map->map_matrix[count_size][map->height - 1] != '1')
+		if (game->map->map_matrix[count_size][0] != '1' \
+		|| game->map->map_matrix[count_size][game->map->height - 1] != '1')
 		{
 			write(1, "DEU ERRO NESSE CARAIO", 22);
 			exit(0);
 		}
 	}
 	count_size = -1;
-	while (++count_size < map->height)
+	while (++count_size < game->map->height)
 	{
-		if (map->map_matrix[0][count_size] != '1' \
-		|| map->map_matrix[map->width - 1][count_size] != '1')
+		if (game->map->map_matrix[0][count_size] != '1' \
+		|| game->map->map_matrix[game->map->width - 1][count_size] != '1')
 		{
 			write(1, "DEU ERRO NESSE CARAIO", 22);
 			exit(0);
@@ -69,11 +69,11 @@ void	verifying_wall(t_map *map)
 	}
 }
 
-void	map_verification(t_map *map)
+void	map_verification(t_game *game)
 {
-	is_rectangular(map);
-	verifying_wall(map);
-	valid_characters(map);
-	if_there_is_no(map);
-	invalid_characters(map);
+	is_rectangular(game);
+	verifying_wall(game);
+	valid_characters(game);
+	if_there_is_no(game);
+	invalid_characters(game);
 }

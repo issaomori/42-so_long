@@ -6,7 +6,7 @@
 #    By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/17 12:09:18 by gissao-m          #+#    #+#              #
-#    Updated: 2022/08/16 15:43:45 by gissao-m         ###   ########.fr        #
+#    Updated: 2022/08/17 12:20:16 by gissao-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,6 @@ SRC =	$(PATH_MAIN)main.c\
 		$(PATH_MAPS)maps.c\
 		$(PATH_MAPS)maps_utils.c\
 		$(PATH_MAPS)ft_strlen.c\
-		$(PATH_MAPS)maps_utils.c\
 		$(PATH_MAPS)maps_characters.c\
 		$(PATH_IMAGES)images.c\
 		$(PATH_GNL)get_next_line_utils.c\

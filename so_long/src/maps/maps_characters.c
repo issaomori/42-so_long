@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 12:57:23 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/16 12:59:53 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/17 16:44:41 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,74 +21,76 @@ void	init_vars(t_map *map)
 	map->checker_e = 0;
 }
 
-void	valid_characters(t_map *map)
+void	valid_characters(t_game *game)
 {
 	int	x;
 	int	y;
 
 	y = -1;
-	map->posc_p = malloc(sizeof(t_pp) * 1);
-	init_vars(map);
-	while (++y < map->width)
+	game->map->posc_p = malloc(sizeof(t_pp) * 1);
+	init_vars(game->map);
+	while (++y < game->map->width)
 	{
 		x = -1;
-		while (--x < map->height)
+		while (++x < game->map->height)
 		{
-			if (map->map_matrix[y][x] == 'P')
+			if (game->map->map_matrix[y][x] == 'P')
 			{
-				map->checker_p++;
-				map->posc_p->posc_x = x;
-				map->posc_p->posc_y = y;
+				game->map->checker_p++;
+				game->map->posc_p->posc_x = x;
+				game->map->posc_p->posc_y = y;
 			}
-			if (map->map_matrix[y][x] == 'C')
-					map->checker_c++;
-			if (map->map_matrix[y][x] == 'E')
-					map->checker_e++;
+			if (game->map->map_matrix[y][x] == 'C')
+					game->map->checker_c++;
+			if (game->map->map_matrix[y][x] == 'E')
+					game->map->checker_e++;
 		}
 	}
 }
 
-void	if_there_is_no(t_map *map)
+
+void	if_there_is_no(t_game *game)
 {
-	if (map->checker_p != 1)
+	if (game->map->checker_p != 1)
 	{
 		printf("Nao tem player");
 		exit(0);
 	}
-	if (map->checker_c == 0)
+	if (game->map->checker_c == 0)
 	{
 		printf("Nao tem coletavel");
 		exit(0);
 	}
-	if (map->checker_e == 0)
+	if (game->map->checker_e == 0)
 	{
 		printf("Nao tem saida nessa merda");
 		exit(0);
 	}
 }
 
-int	invalid_characters(t_map *map)
+int	invalid_characters(t_game *game)
 {
 	int	x;
 	int	y;
 
 	x = 0;
 	y = 0;
-	while (x < map->width)
+	while (y < game->map->width)
 	{
-		y = 0;
-		while (y < map->height)
+		x = 0;
+		while (x < game->map->height)
 		{
-			if (map->map_matrix[y] && map->map_matrix[y][x] != 'P'
-			&& map->map_matrix[y][x] != 'E' && map->map_matrix[y][x] != 'C'
-			&& map->map_matrix[y][x] != '1' && map->map_matrix[y][x] != '0')
+			if (game->map->map_matrix[y] && game->map->map_matrix[y][x] != 'P'
+			&& game->map->map_matrix[y][x] != 'E' && game->map->map_matrix[y][x] != 'C'
+			&& game->map->map_matrix[y][x] != '1' && game->map->map_matrix[y][x] != '0')
 			{
 				printf("Invalid Character\n");
 				exit(0);
 			}
-		y++;
+		x++;
 		}
-	x++;
+	y++;
 	}
 	return (0);
 }
+

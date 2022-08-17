@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 13:00:42 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/16 15:40:13 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/17 17:04:42 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,27 +29,54 @@ void	free_matrix(char **matrix)
 
 int	kill_window(t_game *game)
 {
+	printf("%p\n", game->mlx);
+	if(game->collect->image != 0)
 	mlx_destroy_image(game->mlx, game->collect->image);
-	mlx_destroy_image(game->mlx, game->player->image);
-	mlx_destroy_image(game->mlx, game->enemy->image);
-	mlx_destroy_image(game->mlx, game->wall->image);
-	mlx_destroy_image(game->mlx, game->exit->image);
-	mlx_destroy_image(game->mlx, game->empty->image);
-	mlx_clear_window(game->mlx, game->window);
-	mlx_destroy_window(game->mlx, game->window);
-	mlx_destroy_display(game->mlx);
-	mlx_loop_end(game->mlx);
-	free (game->mlx);
-	free (game->player);
-	free (game->collect);
-	free (game->exit);
-	free (game->enemy);
-	free (game->empty);
-	free (game->wall);
-	free (game->map->posc_p);
-	free_matrix (game->map->map_matrix);
-	free (game->map);
-	free (game);
+	if(game->mlx && game->player->image != 0)
+		mlx_destroy_image(game->mlx, game->player->image);
+	if(game->mlx && game->enemy->image != 0)
+		mlx_destroy_image(game->mlx, game->enemy->image);
+	if(game->mlx && game->wall->image != 0)
+		mlx_destroy_image(game->mlx, game->wall->image);
+	if(game->mlx && game->exit->image != 0)
+		mlx_destroy_image(game->mlx, game->exit->image);
+	if(game->mlx && game->empty->image != 0)
+		mlx_destroy_image(game->mlx, game->empty->image);
+	if(game->mlx && game->window != 0)
+		mlx_clear_window(game->mlx, game->window);
+	if(game->mlx && game->window != 0)
+		mlx_destroy_window(game->mlx, game->window);
+	if(game->mlx != 0)
+		mlx_destroy_display(game->mlx);
+	if(game->mlx != 0)
+		mlx_loop_end(game->mlx);
+	free_protect(game);
+}
+
+void free_protect(t_game *game)
+{
+	if(game->mlx != 0)
+		free (game->mlx);
+	if(game->player != 0)
+		free (game->player);
+	if(game->collect != 0)
+		free (game->collect);
+	if(game->exit != 0)
+		free (game->exit);
+	if(game->enemy != 0)
+		free (game->enemy);
+	if(game->empty != 0)
+		free (game->empty);
+	if(game->wall != 0)
+		free (game->wall);
+	if(game->map->posc_p != 0)
+		free (game->map->posc_p);
+	if(game->map->map_matrix != 0)
+		free_matrix (game->map->map_matrix);
+	if(game->map != 0)
+		free (game->map);
+	if(game != 0)
+		free (game);
 	exit(0);
 }
 
@@ -83,11 +110,11 @@ void	open_image(t_game *game)
 
 void	colisions(t_game *game, int p_ty, int p_tx)
 {
-	if(game->map->map_matrix[p_ty] && game->map->map_matrix[p_ty][p_tx] != '1')
+	if (game->map->map_matrix[p_ty] && game->map->map_matrix[p_ty][p_tx] != '1')
 	{
-		if(game->map->map_matrix[p_ty][p_tx] == 'C')
+		if (game->map->map_matrix[p_ty][p_tx] == 'C')
 			game->map->checker_c--;
-		if(game->map->map_matrix[p_ty][p_tx] == 'E')
+		if (game->map->map_matrix[p_ty][p_tx] == 'E')
 		{
 			if(game->map->checker_c == 0)
 				kill_window(game);
@@ -130,11 +157,10 @@ void	where_are_sprites(t_game *game)
 	int	x;
 	int	y;
 
-	x = 0;
-	y = 0;
+	y = -1;
 	while (++y < game->map->width)
 	{
-		x = 0;
+		x = -1;
 		while (++x < game->map->height)
 		{
 			if (game->map->map_matrix[y][x] == 'C')
@@ -149,9 +175,7 @@ void	where_are_sprites(t_game *game)
 			if (game->map->map_matrix[y][x] == '0')
 				mlx_put_image_to_window(game->mlx, game->window, \
 				game->empty->image, x * 50, y * 50);
-			// x++;
 		}
-		// y++;
 	mlx_put_image_to_window(game->mlx, game->window, game->player->image, \
 	game->map->posc_p->posc_x * 50, game->map->posc_p->posc_y * 50);
 	}

@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 12:23:43 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/16 12:34:57 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/17 16:56:39 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ void	ft_bzero(void *str, size_t n)
 
 void	init_struct(t_game *game)
 {
-	game->player = malloc((sizeof(t_imagedata)) * 1);
-	game->collect = malloc((sizeof(t_imagedata)) * 1);
-	game->exit = malloc((sizeof(t_imagedata)) * 1);
-	game->enemy = malloc((sizeof(t_imagedata)) * 1);
-	game->empty = malloc((sizeof(t_imagedata)) * 1);
-	game->wall = malloc((sizeof(t_imagedata)) * 1);
+	game->player = calloc((sizeof(t_imagedata)), 1);
+	game->collect = calloc((sizeof(t_imagedata)), 1);
+	game->exit = calloc((sizeof(t_imagedata)), 1);
+	game->enemy = calloc((sizeof(t_imagedata)), 1);
+	game->empty = calloc((sizeof(t_imagedata)), 1);
+	game->wall = calloc((sizeof(t_imagedata)), 1);
 }
 
 int	main(int argc, char **argv)
@@ -69,10 +69,11 @@ int	main(int argc, char **argv)
 
 	game = malloc(sizeof(t_game) * 1);
 	game->map = malloc(sizeof(t_map) * 1);
+	ft_bzero(game, 1);
 	ft_bzero(game->map, 1);
 	game->map->map_matrix = reading_the_map(argv[1]);
 	map_saved_dimensions(game->map);
-	map_verification(game->map);
+	map_verification(game);
 	init_struct(game);
 	render(game);
 	return (0);
