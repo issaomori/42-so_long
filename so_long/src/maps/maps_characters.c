@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 12:57:23 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/17 18:03:22 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/18 09:17:37 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,17 @@ void	if_there_is_no(t_game *game)
 {
 	if (game->map->checker_p != 1)
 	{
-		printf("Error\nThe map need only one player.\n");
+		ft_printf(ONE_PLAY);
 		kill_window(game);
 	}
 	if (game->map->checker_c == 0)
 	{
-		printf("Error\nThe map needs at least one collect.\n");
+		ft_printf(ONE_COL);
 		kill_window(game);
 	}
 	if (game->map->checker_e == 0)
 	{
-		printf("Error\nThe map need at least one exit.\n");
+		ft_printf(ONE_EXT);
 		kill_window(game);
 	}
 }
@@ -86,7 +86,7 @@ int	invalid_characters(t_game *game)
 			&& game->map->map_matrix[y][x] != '1' \
 			&& game->map->map_matrix[y][x] != '0')
 			{
-				printf("Error\nInvalid Character\n");
+				ft_printf(INV_CHR);
 				kill_window(game);
 			}
 			x++;

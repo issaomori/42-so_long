@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 13:00:42 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/17 17:55:22 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/18 14:11:26 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ int	kill_window(t_game *game)
 		mlx_destroy_image(game->mlx, game->collect->image);
 	if(game->mlx && game->player->image != 0)
 		mlx_destroy_image(game->mlx, game->player->image);
-	if(game->mlx && game->enemy->image != 0)
-		mlx_destroy_image(game->mlx, game->enemy->image);
 	if(game->mlx && game->wall->image != 0)
 		mlx_destroy_image(game->mlx, game->wall->image);
 	if(game->mlx && game->exit->image != 0)
@@ -63,8 +61,6 @@ void free_protect(t_game *game)
 		free (game->collect);
 	if(game->exit != 0)
 		free (game->exit);
-	if(game->enemy != 0)
-		free (game->enemy);
 	if(game->empty != 0)
 		free (game->empty);
 	if(game->wall != 0)
@@ -79,32 +75,46 @@ void free_protect(t_game *game)
 		free (game);
 }
 
+int    refresh(t_game *game)
+{
+    if (game->reset < 20)
+        game->reset += 0.0001;
+    else
+    {
+        mlx_clear_window(game->mlx, game->window);
+        game->reset = 0;
+    }
+    where_are_sprites(game);
+    return (0);
+}
+
 void	render(t_game *game)
 {
 	game->mlx = mlx_init();
-	game->window = mlx_new_window(game->mlx, game->map->height * 50, \
-	game->map->width * 50, "TITULO DO JOGO");
+	game->window = mlx_new_window(game->mlx, game->map->height * 	PXL, \
+	game->map->width * 	PXL, TITLE);
 	open_image(game);
 	where_are_sprites(game);
 	mlx_hook(game->window, 17, 0L, kill_window, (void *)game);
 	mlx_hook(game->window, 2, 1L << 0, keys_to_move, (void *)game);
+	mlx_loop_hook(game->mlx, refresh, game);
 	mlx_loop(game->mlx);
 }
+
+
 
 void	open_image(t_game *game)
 {
 	game->player->image = mlx_xpm_file_to_image(game->mlx, \
-	"./sprites/player.xpm", &game->player->i, &game->player->j);
+	PLAYER, &game->player->i, &game->player->j);
 	game->collect->image = mlx_xpm_file_to_image(game->mlx, \
-	"./sprites/collect.xpm", &game->collect->i, &game->collect->j);
+	COLLECT, &game->collect->i, &game->collect->j);
 	game->empty->image = mlx_xpm_file_to_image(game->mlx, \
-	"./sprites/empty.xpm", &game->empty->i, &game->empty->j);
-	game->enemy->image = mlx_xpm_file_to_image(game->mlx, \
-	"./sprites/enemy.xpm", &game->enemy->i, &game->enemy->j);
+	EMPTY, &game->empty->i, &game->empty->j);
 	game->exit->image = mlx_xpm_file_to_image(game->mlx, \
-	"./sprites/exit.xpm", &game->exit->i, &game->exit->j);
+	EXIT, &game->exit->i, &game->exit->j);
 	game->wall->image = mlx_xpm_file_to_image(game->mlx, \
-	"./sprites/wall.xpm", &game->wall->i, &game->wall->j);
+	WALL, &game->wall->i, &game->wall->j);
 }
 
 void	colisions(t_game *game, int p_ty, int p_tx)
@@ -112,7 +122,12 @@ void	colisions(t_game *game, int p_ty, int p_tx)
 	if (game->map->map_matrix[p_ty] && game->map->map_matrix[p_ty][p_tx] != '1')
 	{
 		if (game->map->map_matrix[p_ty][p_tx] == 'C')
+		{
+			game->map->map_matrix[game->map->posc_p->posc_y] \
+			[game->map->posc_p->posc_x] = '0';
+			game->map->map_matrix[p_ty][p_tx] = 'P';
 			game->map->checker_c--;
+		}
 		if (game->map->map_matrix[p_ty][p_tx] == 'E')
 		{
 			if(game->map->checker_c == 0)
@@ -120,22 +135,22 @@ void	colisions(t_game *game, int p_ty, int p_tx)
 		}
 		else
 		{
-			game->map->map_matrix[game->map->posc_p->posc_y][game->map->posc_p->posc_x] = '0';
+			game->map->map_matrix[game->map->posc_p->posc_y] \
+			[game->map->posc_p->posc_x] = '0';
 			game->map->posc_p->posc_x = p_tx;
 			game->map->posc_p->posc_y = p_ty;
+			game->map->c_mv++;
 		}
 	}
 }
 
 int keys_to_move(int key_press, t_game *game)
 {
-	//fazer uma variavel para receber o valor da poscicao do player.
 	int	p_tx;
 	int	p_ty;
 
 	p_tx = game->map->posc_p->posc_x;
 	p_ty = game->map->posc_p->posc_y;
-	//preciso usar os botões w,a,s,d para andar.
 	if(key_press == KEY_ESC)
 		kill_window(game);
 	if(key_press == KEY_UP)
@@ -164,18 +179,19 @@ void	where_are_sprites(t_game *game)
 		{
 			if (game->map->map_matrix[y][x] == 'C')
 				mlx_put_image_to_window(game->mlx, game->window, \
-				game->collect->image, x * 50, y * 50);
+				game->collect->image, x * PXL, y * PXL);
 			if (game->map->map_matrix[y][x] == 'E')
 				mlx_put_image_to_window(game->mlx, game->window, \
-				game->exit->image, x * 50, y * 50);
+				game->exit->image, x * PXL, y * PXL);
 			if (game->map->map_matrix[y][x] == '1')
 				mlx_put_image_to_window(game->mlx, game->window, \
-				game->wall->image, x * 50, y * 50);
+				game->wall->image, x * PXL, y * PXL);
 			if (game->map->map_matrix[y][x] == '0')
 				mlx_put_image_to_window(game->mlx, game->window, \
-				game->empty->image, x * 50, y * 50);
+				game->empty->image, x * PXL, y * PXL);
 		}
-	mlx_put_image_to_window(game->mlx, game->window, game->player->image, \
-	game->map->posc_p->posc_x * 50, game->map->posc_p->posc_y * 50);
+		mlx_put_image_to_window(game->mlx, game->window, game->player->image, \
+		game->map->posc_p->posc_x * PXL, game->map->posc_p->posc_y * PXL);
 	}
+	printf("\e[1;1H\e[2J Move: %d\n", game->map->c_mv);
 }

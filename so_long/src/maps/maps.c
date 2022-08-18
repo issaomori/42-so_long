@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 14:55:43 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/17 17:54:41 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/18 09:15:52 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	is_rectangular(t_game *game)
 	{
 		if (ft_strlen(game->map->map_matrix[count_size]) != game->map->height)
 		{
-			printf("Error\nMap is not Rectangular\n");
+			ft_printf(NOT_RECT);
 			kill_window(game);
 		}
 	}
@@ -53,7 +53,7 @@ void	is_rectangular(t_game *game)
 		if (game->map->map_matrix[count_size][0] != '1' \
 		|| game->map->map_matrix[count_size][game->map->height - 1] != '1')
 		{
-			printf("Error\n");
+			ft_printf(WALL_GAP);
 			kill_window(game);
 		}
 	}
@@ -63,7 +63,7 @@ void	is_rectangular(t_game *game)
 		if (game->map->map_matrix[0][count_size] != '1' \
 		|| game->map->map_matrix[game->map->width - 1][count_size] != '1')
 		{
-			printf("Error\n");
+			ft_printf(WALL_GAP);
 			kill_window(game);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 12:12:06 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/17 17:17:07 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/18 14:13:13 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <sys/types.h>
 # include <stdlib.h>
 # include "get_next_line.h"
+# include "ft_printf.h"
 
 typedef struct s_posc_player
 {
@@ -28,12 +29,36 @@ typedef struct s_posc_player
 	int		posc_y;
 }	t_pp;
 
-
+//KEYBOARD:
 # define KEY_UP 0x77
 # define KEY_DOWN 0x73
 # define KEY_RIGHT 0x64
 # define KEY_LEFT 0x61
 # define KEY_ESC 0xff1b
+
+//SIZE IMAGES:
+# define PXL 62
+
+//NAME IMAGES:
+# define PLAYER "./sprites/cometa.xpm"
+# define COLLECT "./sprites/planeta2.xpm"
+# define EMPTY "./sprites/galaxia1.xpm"
+# define EXIT "./sprites/buraconegro.xpm"
+# define WALL "./sprites/fumaca3.xpm"
+
+//ERRORS WARNINGS:
+# define INV_ARG "Error\nThe argument is invalid.\n"
+# define EPT_LNE "Error\nLine empty in the map.\n"
+# define NOT_RECT "Error\nMap is not Rectangular\n"
+# define WALL_GAP "Error\nThe Wall has a gap."
+# define ONE_PLAY "Error\nThe map need only one player.\n"
+# define ONE_COL "Error\nThe map needs at least one collect.\n"
+# define ONE_EXT "Error\nThe map need at least one exit.\n"
+# define INV_CHR "Error\nInvalid Character\n"
+# define CLEAN "This Maps is clean"
+
+//TITLE GAME:
+# define TITLE "./so_long"
 
 typedef struct s_imagedata
 {
@@ -61,6 +86,7 @@ typedef struct s_map
 	char	*readed_map;
 	char	**map_matrix;
 	t_pp	*posc_p;
+	int		c_mv;
 }	t_map;
 
 typedef struct s_game
@@ -71,9 +97,9 @@ typedef struct s_game
 	t_imagedata		*collect;
 	t_imagedata		*exit;
 	t_imagedata		*empty;
-	t_imagedata		*enemy;
 	t_imagedata		*wall;
 	t_map			*map;
+	float			reset;
 	
 }	t_game;
 

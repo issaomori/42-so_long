@@ -6,7 +6,7 @@
 #    By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/17 12:09:18 by gissao-m          #+#    #+#              #
-#    Updated: 2022/08/17 17:29:14 by gissao-m         ###   ########.fr        #
+#    Updated: 2022/08/18 10:22:48 by gissao-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ PATH_MAIN = $(PATH_SRC)main/
 PATH_GNL = $(PATH_SRC)gnl/
 PATH_MAPS = $(PATH_SRC)maps/
 PATH_IMAGES = $(PATH_SRC)images/
+PATH_PRINTF = $(PATH_SRC)printf/
 
 PATH_OBJS = ./objs/
 
@@ -34,9 +35,11 @@ SRC =	$(PATH_MAIN)main.c\
 		$(PATH_MAPS)libft_utils.c\
 		$(PATH_MAPS)maps_characters.c\
 		$(PATH_IMAGES)images.c\
+		$(PATH_GNL)get_next_line.c\
 		$(PATH_GNL)get_next_line_utils.c\
-		$(PATH_GNL)get_next_line.c
-		
+		$(PATH_PRINTF)ft_printf.c\
+		$(PATH_PRINTF)ft_printf_utils.c\
+
 
 OBJS = $(patsubst $(PATH_SRC)%.c, $(PATH_OBJS)%.o, $(SRC))
 
@@ -51,6 +54,7 @@ $(PATH_OBJS)%.o: $(PATH_SRC)%.c
 	@mkdir -p $(PATH_OBJS)main/
 	@mkdir -p $(PATH_OBJS)maps/
 	@mkdir -p $(PATH_OBJS)images/
+	@mkdir -p $(PATH_OBJS)printf/
 	$(CC) $(CFLAGS) -c $< -o $@ $(MLXFLAGS)
 
 clean:

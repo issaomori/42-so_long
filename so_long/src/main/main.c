@@ -6,38 +6,51 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 12:23:43 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/17 18:29:37 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/18 11:57:05 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+// int	invalid_arg(t_map maps)
+// {
+//     	if (maps.fd < 0)
+// 	{
+// 		ft_printf(INV_ARG);
+// 		return (NULL);
+// 	}
+// }
+char	**clean_map(t_map *maps)
+{
+	while (maps->buffer)
+	{
+		free(maps->buffer);
+		maps->buffer = get_next_line(maps->fd);
+	}
+	ft_printf(EPT_LNE);
+	free(maps->readed_map);
+	close(maps->fd);
+	return (NULL);
+}
 
 char	**reading_the_map(char *pass_arg)
 {
 	t_map	maps;
 
 	maps.fd = open(pass_arg, O_RDONLY);
-	if (maps.fd < 0)
+	// printf("%s", clean_map(maps));
+	// clean_map(maps);
+    if (maps.fd < 0)
 	{
-		printf("Error\nThe argument is invalid.\n");
-		return(NULL);	
+		ft_printf(INV_ARG);
+		return (NULL);
 	}
 	maps.readed_map = ft_strdup("");
 	maps.buffer = get_next_line(maps.fd);
 	while (maps.buffer)
 	{
 		if (maps.buffer[0] == '\n')
-		{
-			while(maps.buffer)
-			{
-				free(maps.buffer);
-				maps.buffer = get_next_line(maps.fd);
-			}
-			printf("Error\nLine empty in the map.\n");
-			free(maps.readed_map);
-			close(maps.fd);
-			return(NULL);
-		}
+			return (clean_map(&maps));
 		maps.readed_map = ft_strjoin(maps.readed_map, maps.buffer);
 		free(maps.buffer);
 		maps.buffer = get_next_line(maps.fd);
@@ -66,7 +79,6 @@ void	init_struct(t_game *game)
 	game->player = ft_calloc((sizeof(t_imagedata)), 1);
 	game->collect = ft_calloc((sizeof(t_imagedata)), 1);
 	game->exit = ft_calloc((sizeof(t_imagedata)), 1);
-	game->enemy = ft_calloc((sizeof(t_imagedata)), 1);
 	game->empty = ft_calloc((sizeof(t_imagedata)), 1);
 	game->wall = ft_calloc((sizeof(t_imagedata)), 1);
 }
