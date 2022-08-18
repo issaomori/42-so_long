@@ -6,20 +6,12 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 12:23:43 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/18 11:57:05 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/18 16:04:27 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-// int	invalid_arg(t_map maps)
-// {
-//     	if (maps.fd < 0)
-// 	{
-// 		ft_printf(INV_ARG);
-// 		return (NULL);
-// 	}
-// }
 char	**clean_map(t_map *maps)
 {
 	while (maps->buffer)
@@ -38,9 +30,7 @@ char	**reading_the_map(char *pass_arg)
 	t_map	maps;
 
 	maps.fd = open(pass_arg, O_RDONLY);
-	// printf("%s", clean_map(maps));
-	// clean_map(maps);
-    if (maps.fd < 0)
+	if (maps.fd < 0)
 	{
 		ft_printf(INV_ARG);
 		return (NULL);
@@ -61,19 +51,6 @@ char	**reading_the_map(char *pass_arg)
 	return (maps.map_matrix);
 }
 
-void	ft_bzero(void *str, size_t n)
-{
-	unsigned char	*put_zero;
-
-	put_zero = str;
-	while (n > 0)
-	{
-		*put_zero = 0;
-		put_zero++;
-		n--;
-	}
-}
-
 void	init_struct(t_game *game)
 {
 	game->player = ft_calloc((sizeof(t_imagedata)), 1);
@@ -86,15 +63,17 @@ void	init_struct(t_game *game)
 int	main(int argc, char **argv)
 {
 	t_game	*game;
+	
+	(void)argc;
 
 	game = ft_calloc(sizeof(t_game), 1);
 	game->map = ft_calloc(sizeof(t_map), 1);
 	game->map->map_matrix = reading_the_map(argv[1]);
-	if(game->map->map_matrix == NULL)
+	if (game->map->map_matrix == NULL)
 		kill_window(game);
 	map_saved_dimensions(game->map);
 	map_verification(game);
 	init_struct(game);
-	render(game);
+	run(game);
 	return (0);
 }

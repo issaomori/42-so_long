@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 14:55:43 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/18 09:15:52 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/18 14:45:56 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	is_rectangular(t_game *game)
 	}
 }
 
-	void	verifying_wall(t_game *game)
+void	verifying_wall(t_game *game)
 {
 	int	count_size;
 
@@ -74,6 +74,6 @@ void	map_verification(t_game *game)
 	is_rectangular(game);
 	verifying_wall(game);
 	valid_characters(game);
-	if_there_is_no(game);
+	checking_characters(game);
 	invalid_characters(game);
 }

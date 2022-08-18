@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 12:57:23 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/18 09:17:37 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/18 14:45:45 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	valid_characters(t_game *game)
 	}
 }
 
-void	if_there_is_no(t_game *game)
+void	checking_characters(t_game *game)
 {
 	if (game->map->checker_p != 1)
 	{

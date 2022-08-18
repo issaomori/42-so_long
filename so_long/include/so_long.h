@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 12:12:06 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/18 14:13:13 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/18 15:58:33 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,9 @@
 # define SO_LONG_H
 
 # include <mlx.h>
-# include <unistd.h>
 # include <fcntl.h>
-# include <stdio.h>
-# include <sys/stat.h>
-# include <sys/types.h>
-# include <stdlib.h>
 # include "get_next_line.h"
 # include "ft_printf.h"
-
-typedef struct s_posc_player
-{
-	int		posc_x;
-	int		posc_y;
-}	t_pp;
 
 //KEYBOARD:
 # define KEY_UP 0x77
@@ -40,11 +29,11 @@ typedef struct s_posc_player
 # define PXL 62
 
 //NAME IMAGES:
-# define PLAYER "./sprites/cometa.xpm"
-# define COLLECT "./sprites/planeta2.xpm"
+# define PLAYER "./sprites/ratue.xpm"
+# define COLLECT "./sprites/planeta.xpm"
 # define EMPTY "./sprites/galaxia1.xpm"
 # define EXIT "./sprites/buraconegro.xpm"
-# define WALL "./sprites/fumaca3.xpm"
+# define WALL "./sprites/fumaca2.xpm"
 
 //ERRORS WARNINGS:
 # define INV_ARG "Error\nThe argument is invalid.\n"
@@ -60,19 +49,19 @@ typedef struct s_posc_player
 //TITLE GAME:
 # define TITLE "./so_long"
 
+typedef struct s_posc_player
+{
+	int		posc_x;
+	int		posc_y;
+}	t_pp;
+
 typedef struct s_imagedata
 {
 	void	*image;
 	char	*address;
 	int		i;
 	int		j;
-    //i e j sao o tamanho da imagem.
 }	t_imagedata;
-
-//vamos fazer uma struct que servirá para colocarmos
-//imagem na nossa janela. Para isso colocaremos
-//pixeis e vamos precisar do endereço de memoria
-//para alterarmos os bytes.
 
 typedef struct s_map
 {	
@@ -91,8 +80,8 @@ typedef struct s_map
 
 typedef struct s_game
 {
-	void	*mlx;
-	void	*window;
+	void			*mlx;
+	void			*window;
 	t_imagedata		*player;
 	t_imagedata		*collect;
 	t_imagedata		*exit;
@@ -100,29 +89,47 @@ typedef struct s_game
 	t_imagedata		*wall;
 	t_map			*map;
 	float			reset;
-	
 }	t_game;
 
-char	**ft_split(char const *s, char c);
-char	*ft_strdup(char *src);
-void	ft_bzero(void *str, size_t n);
+//Functions in main:
+char	**clean_map(t_map *maps);
 char	**reading_the_map(char *pass_arg);
+void	init_struct(t_game *game);
+
+//Functions in run:
+void	run(t_game *game);
+
+//Functions in maps/libft_utils.c:
+void	ft_bzero(void *str, size_t n);
+void	*ft_calloc(size_t number, size_t size);
+int		ft_strlen(char *str);
+char	*ft_strdup(char *src);
+
+//Functions in maps/maps_characters.c:
+void	init_vars(t_map *map);
+void	valid_characters(t_game *game);
+void	checking_characters(t_game *game);
+int		invalid_characters(t_game *game);
+
+//Functions in maps/maps_utils.c:
+char	**ft_split(char const *s, char c);
+
+//Functions in maps/maps.c:
+void	map_saved_dimensions(t_map *dimensions);
 void	is_rectangular(t_game *game);
 void	verifying_wall(t_game *game);
-void	map_saved_dimensions(t_map *dimensions);
-int		ft_strlen(char *str);
-int		invalid_characters(t_game *game);
-void	valid_characters(t_game *game);
-void	ft_bzero(void *str, size_t n);
-void	if_there_is_no(t_game *game);
 void	map_verification(t_game *game);
-void	render(t_game *game);
-void	open_image(t_game *game);
-void	where_are_sprites(t_game *game);
-void	init_struct(t_game *game);
-int		keys_to_move(int key_press, t_game *game);
-void	init_vars(t_map *map);
+
+//Functions in images/clean_images.c:
+void	free_matrix(char **matrix);
 int		kill_window(t_game *game);
 void	free_protect(t_game *game);
-void	*ft_calloc(size_t number, size_t size);
+int		refresh(t_game *game);
+
+//Functions in images/images.c:
+void	open_image(t_game *game);
+void	colisions(t_game *game, int p_ty, int p_tx);
+int		keys_to_move(int key_press, t_game *game);
+void	put_image(t_game *game, t_imagedata *image, int x, int y);
+void	render(t_game *game);
 #endif

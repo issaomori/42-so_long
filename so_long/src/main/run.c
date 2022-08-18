@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/17 12:18:53 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/18 15:37:09 by gissao-m         ###   ########.fr       */
+/*   Created: 2022/08/18 15:20:50 by gissao-m          #+#    #+#             */
+/*   Updated: 2022/08/18 15:21:14 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "so_long.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
-# endif
-
-char	*ft_strchr(char *str, int found);
-char	*ft_strjoin(char *dup_str, char *buffer);
-char	*ft_return_line(char *print_str);
-char	*ft_initial_position(char *next_str);
-char	*get_next_line(int fd);
-char	*ft_get_str(int fd, char *read_line_str);
-
-#endif
+void	run(t_game *game)
+{
+	game->mlx = mlx_init();
+	game->window = mlx_new_window(game->mlx, game->map->height * PXL, \
+	game->map->width * PXL, TITLE);
+	open_image(game);
+	render(game);
+	mlx_hook(game->window, 17, 0L, kill_window, (void *)game);
+	mlx_hook(game->window, 2, 1L << 0, keys_to_move, (void *)game);
+	mlx_loop_hook(game->mlx, refresh, game);
+	mlx_loop(game->mlx);
+}

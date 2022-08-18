@@ -6,15 +6,15 @@
 #    By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/17 12:09:18 by gissao-m          #+#    #+#              #
-#    Updated: 2022/08/18 10:22:48 by gissao-m         ###   ########.fr        #
+#    Updated: 2022/08/18 16:06:17 by gissao-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = so_long
 
-CC = gcc
+CC = clang
 INCLUDE = -I ./include/
-CFLAGS = -g $(INCLUDE)
+CFLAGS = -Wall -Wextra -Werror -g $(INCLUDE)
 MLXFLAGS = -lmlx -Ilmlx -lXext -lX11
 
 
@@ -29,12 +29,13 @@ PATH_PRINTF = $(PATH_SRC)printf/
 
 PATH_OBJS = ./objs/
 
-SRC =	$(PATH_MAIN)main.c\
+SRC =	$(PATH_MAIN)run.c\
 		$(PATH_MAPS)maps.c\
 		$(PATH_MAPS)maps_utils.c\
 		$(PATH_MAPS)libft_utils.c\
 		$(PATH_MAPS)maps_characters.c\
 		$(PATH_IMAGES)images.c\
+		$(PATH_IMAGES)clean_images.c\
 		$(PATH_GNL)get_next_line.c\
 		$(PATH_GNL)get_next_line_utils.c\
 		$(PATH_PRINTF)ft_printf.c\
@@ -46,7 +47,7 @@ OBJS = $(patsubst $(PATH_SRC)%.c, $(PATH_OBJS)%.o, $(SRC))
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(MLXFLAGS)
+	$(CC) $(CFLAGS) $(PATH_MAIN)main.c $(OBJS) -o $(NAME) $(MLXFLAGS)
 
 $(PATH_OBJS)%.o: $(PATH_SRC)%.c
 	@mkdir -p $(PATH_OBJS)
@@ -55,7 +56,7 @@ $(PATH_OBJS)%.o: $(PATH_SRC)%.c
 	@mkdir -p $(PATH_OBJS)maps/
 	@mkdir -p $(PATH_OBJS)images/
 	@mkdir -p $(PATH_OBJS)printf/
-	$(CC) $(CFLAGS) -c $< -o $@ $(MLXFLAGS)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	$(RM) ./objs
