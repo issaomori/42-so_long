@@ -6,15 +6,15 @@
 #    By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/17 12:09:18 by gissao-m          #+#    #+#              #
-#    Updated: 2022/08/15 12:55:36 by gissao-m         ###   ########.fr        #
+#    Updated: 2022/08/18 16:40:25 by gissao-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = so_long
 
-CC = gcc
+CC = cc
 INCLUDE = -I ./include/
-CFLAGS = -g $(INCLUDE)
+CFLAGS = -Wall -Wextra -Werror -g $(INCLUDE)
 MLXFLAGS = -lmlx -Ilmlx -lXext -lX11
 
 
@@ -25,23 +25,30 @@ PATH_MAIN = $(PATH_SRC)main/
 PATH_GNL = $(PATH_SRC)gnl/
 PATH_MAPS = $(PATH_SRC)maps/
 PATH_IMAGES = $(PATH_SRC)images/
+PATH_PRINTF = $(PATH_SRC)printf/
 
 PATH_OBJS = ./objs/
 
 SRC =	$(PATH_MAIN)main.c\
+		$(PATH_MAIN)run.c\
 		$(PATH_MAPS)maps.c\
 		$(PATH_MAPS)maps_utils.c\
+		$(PATH_MAPS)libft_utils.c\
+		$(PATH_MAPS)maps_characters.c\
 		$(PATH_IMAGES)images.c\
+		$(PATH_IMAGES)clean_images.c\
+		$(PATH_GNL)get_next_line.c\
 		$(PATH_GNL)get_next_line_utils.c\
-		$(PATH_GNL)get_next_line.c
-		
+		$(PATH_PRINTF)ft_printf.c\
+		$(PATH_PRINTF)ft_printf_utils.c\
+
 
 OBJS = $(patsubst $(PATH_SRC)%.c, $(PATH_OBJS)%.o, $(SRC))
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(MLXFLAGS)
+	$(CC) $(CFLAGS)  $(OBJS) -o $(NAME) $(MLXFLAGS)
 
 $(PATH_OBJS)%.o: $(PATH_SRC)%.c
 	@mkdir -p $(PATH_OBJS)
@@ -49,7 +56,8 @@ $(PATH_OBJS)%.o: $(PATH_SRC)%.c
 	@mkdir -p $(PATH_OBJS)main/
 	@mkdir -p $(PATH_OBJS)maps/
 	@mkdir -p $(PATH_OBJS)images/
-	$(CC) $(CFLAGS) -c $< -o $@ $(MLXFLAGS)
+	@mkdir -p $(PATH_OBJS)printf/
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	$(RM) ./objs
@@ -59,4 +67,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all $(NAME)  $(PATH_OBJS) clean fclean re
+.PHONY: all $(PATH_OBJS) clean fclean re

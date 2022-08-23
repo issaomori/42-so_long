@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 12:18:53 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/15 10:27:46 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/18 15:37:09 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdlib.h>
 
 # ifndef BUFFER_SIZE
-# define BUFFER_SIZE 1
+#  define BUFFER_SIZE 1
 # endif
 
 char	*ft_strchr(char *str, int found);

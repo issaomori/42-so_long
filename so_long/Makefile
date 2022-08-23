@@ -6,13 +6,13 @@
 #    By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/17 12:09:18 by gissao-m          #+#    #+#              #
-#    Updated: 2022/08/18 16:06:17 by gissao-m         ###   ########.fr        #
+#    Updated: 2022/08/18 16:40:25 by gissao-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = so_long
 
-CC = clang
+CC = cc
 INCLUDE = -I ./include/
 CFLAGS = -Wall -Wextra -Werror -g $(INCLUDE)
 MLXFLAGS = -lmlx -Ilmlx -lXext -lX11
@@ -29,7 +29,8 @@ PATH_PRINTF = $(PATH_SRC)printf/
 
 PATH_OBJS = ./objs/
 
-SRC =	$(PATH_MAIN)run.c\
+SRC =	$(PATH_MAIN)main.c\
+		$(PATH_MAIN)run.c\
 		$(PATH_MAPS)maps.c\
 		$(PATH_MAPS)maps_utils.c\
 		$(PATH_MAPS)libft_utils.c\
@@ -47,7 +48,7 @@ OBJS = $(patsubst $(PATH_SRC)%.c, $(PATH_OBJS)%.o, $(SRC))
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(PATH_MAIN)main.c $(OBJS) -o $(NAME) $(MLXFLAGS)
+	$(CC) $(CFLAGS)  $(OBJS) -o $(NAME) $(MLXFLAGS)
 
 $(PATH_OBJS)%.o: $(PATH_SRC)%.c
 	@mkdir -p $(PATH_OBJS)
@@ -66,4 +67,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all $(NAME)  $(PATH_OBJS) clean fclean re
+.PHONY: all $(PATH_OBJS) clean fclean re

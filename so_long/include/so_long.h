@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 12:12:06 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/18 15:58:33 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/22 15:15:59 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,27 @@
 # define PXL 62
 
 //NAME IMAGES:
-# define PLAYER "./sprites/ratue.xpm"
-# define COLLECT "./sprites/planeta.xpm"
-# define EMPTY "./sprites/galaxia1.xpm"
-# define EXIT "./sprites/buraconegro.xpm"
-# define WALL "./sprites/fumaca2.xpm"
+# define PLAYER "./assets/comet.xpm"
+# define COLLECT "./assets/planet.xpm"
+# define EMPTY "./assets/galaxy.xpm"
+# define EXIT "./assets/blackhole.xpm"
+# define WALL "./assets/smoke.xpm"
 
 //ERRORS WARNINGS:
 # define INV_ARG "Error\nThe argument is invalid.\n"
 # define EPT_LNE "Error\nLine empty in the map.\n"
 # define NOT_RECT "Error\nMap is not Rectangular\n"
-# define WALL_GAP "Error\nThe Wall has a gap."
+# define WALL_GAP "Error\nThe Wall has a gap.\n"
 # define ONE_PLAY "Error\nThe map need only one player.\n"
 # define ONE_COL "Error\nThe map needs at least one collect.\n"
 # define ONE_EXT "Error\nThe map need at least one exit.\n"
-# define INV_CHR "Error\nInvalid Character\n"
-# define CLEAN "This Maps is clean"
+# define INV_CHR "Error\nInvalid Character.\n"
+# define CLEAN "This Maps is clean.\n"
 
 //TITLE GAME:
 # define TITLE "./so_long"
 
+//STRUCTS:
 typedef struct s_posc_player
 {
 	int		posc_x;
@@ -58,7 +59,6 @@ typedef struct s_posc_player
 typedef struct s_imagedata
 {
 	void	*image;
-	char	*address;
 	int		i;
 	int		j;
 }	t_imagedata;
