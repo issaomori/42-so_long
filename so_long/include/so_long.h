@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 12:12:06 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/22 15:15:59 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/23 12:53:57 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,12 @@ typedef struct s_game
 	float			reset;
 }	t_game;
 
-//Functions in main:
-char	**clean_map(t_map *maps);
-char	**reading_the_map(char *pass_arg);
-void	init_struct(t_game *game);
-
 //Functions in run:
 void	run(t_game *game);
+char	**reading_the_map(char *pass_arg);
+void	init_struct(t_game *game);
+char	**clean_map(t_map *maps);
+int		checking_map_file(char *pass_arg);
 
 //Functions in maps/libft_utils.c:
 void	ft_bzero(void *str, size_t n);

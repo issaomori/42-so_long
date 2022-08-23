@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:20:50 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/22 14:00:31 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/23 13:01:43 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ char	**reading_the_map(char *pass_arg)
 {
 	t_map	maps;
 
+	if (checking_map_file(pass_arg) != 0)
+		return (NULL);
 	maps.fd = open(pass_arg, O_RDONLY);
 	if (maps.fd < 0)
 	{
@@ -71,4 +73,27 @@ char	**clean_map(t_map *maps)
 	free(maps->readed_map);
 	close(maps->fd);
 	return (NULL);
+}
+
+int	checking_map_file(char *pass_arg)
+{
+	int		count1;
+	int		count2;
+	char	*comp;
+
+	comp = ft_strdup(".ber");
+	count1 = ft_strlen(pass_arg);
+	count2 = ft_strlen(comp);
+	while (count2 >= 0)
+	{
+		if (pass_arg[count1] != comp[count2])
+		{
+			free(comp);
+			return (ft_printf(INV_ARG));
+		}
+		count1--;
+		count2--;
+	}
+	free (comp);
+	return (0);
 }
