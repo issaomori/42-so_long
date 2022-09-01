@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 13:00:42 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/18 15:57:41 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/24 15:49:07 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,6 @@ int	keys_to_move(int key_press, t_game *game)
 
 void	put_image(t_game *game, t_imagedata *image, int x, int y)
 {
-	mlx_put_image_to_window(game->mlx, game->window, \
-	image->image, x * PXL, y * PXL);
-	mlx_put_image_to_window(game->mlx, game->window, \
-	image->image, x * PXL, y * PXL);
-	mlx_put_image_to_window(game->mlx, game->window, \
-	image->image, x * PXL, y * PXL);
 	mlx_put_image_to_window(game->mlx, game->window, \
 	image->image, x * PXL, y * PXL);
 }

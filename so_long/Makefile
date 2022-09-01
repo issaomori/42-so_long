@@ -6,7 +6,7 @@
 #    By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/17 12:09:18 by gissao-m          #+#    #+#              #
-#    Updated: 2022/08/18 16:40:25 by gissao-m         ###   ########.fr        #
+#    Updated: 2022/08/25 17:36:11 by gissao-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,6 @@ PATH_GNL = $(PATH_SRC)gnl/
 PATH_MAPS = $(PATH_SRC)maps/
 PATH_IMAGES = $(PATH_SRC)images/
 PATH_PRINTF = $(PATH_SRC)printf/
-
 PATH_OBJS = ./objs/
 
 SRC =	$(PATH_MAIN)main.c\

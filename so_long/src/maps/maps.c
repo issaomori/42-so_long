@@ -6,12 +6,11 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 14:55:43 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/18 14:45:56 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/23 23:21:54 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include <stdlib.h>
 
 void	map_saved_dimensions(t_map *dimensions)
 {

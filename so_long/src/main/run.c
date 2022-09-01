@@ -6,7 +6,7 @@
 /*   By: gissao-m <gissao-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:20:50 by gissao-m          #+#    #+#             */
-/*   Updated: 2022/08/23 13:01:43 by gissao-m         ###   ########.fr       */
+/*   Updated: 2022/08/29 19:02:47 by gissao-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 void	run(t_game *game)
 {
 	game->mlx = mlx_init();
+	if (!game->mlx)
+	{
+		free_protect(game);
+		exit(EXIT_FAILURE);
+	}
 	game->window = mlx_new_window(game->mlx, game->map->height * PXL, \
 	game->map->width * PXL, TITLE);
 	open_image(game);
